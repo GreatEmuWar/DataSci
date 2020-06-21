@@ -121,5 +121,26 @@ def imputeNumericalNaN(numerical_cols, replace=False, repl_df=''):
                 repl_df[str(column)] = numerical_cols[str(column)]
             else:
                 continue
-            
+
         return repl_df
+
+
+def trainModels(x, y, random=0, model=None):
+
+    training_x, value_x, training_y, value_y = train_test_split(x, y, random_state=random)
+    model.fit(training_x, training_y)
+    predictions = model.predict(value_x)
+    score = mean_absolute_error(value_y,predictions)
+    return_obj = {
+        
+        "train_x" : training_x,
+        "train_y" : training_y,
+        "value_x" : value_x,
+        "value_y" : value_y,
+        "predictions" : predictions,
+        "model" : model,
+        "score" : score
+        
+    }
+    
+    return return_obj
